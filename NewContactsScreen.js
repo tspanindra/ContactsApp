@@ -3,7 +3,8 @@ import { Button } from "react-native";
 
 export default class NewContactsScreen extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    title: navigation.state.params.name
+    title: navigation.state.params.name,
+    headerStyle: { paddingTop: 20 }
   });
   render() {
     const { goBack } = this.props.navigation;
