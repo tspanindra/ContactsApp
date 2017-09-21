@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, Button, StyleSheet, TouchableHighlight, Text } from "react-native";
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -26,13 +27,10 @@ export default class MainScreen extends React.Component {
     headerStyle: { paddingTop: 20 }
   };
 
-  createButton = title => {
+  createButton = (title, navigateScreen) => {
     const { navigate } = this.props.navigation;
     return (
-      <TouchableHighlight
-        style={styles.button}
-        onPress={() => navigate("NewContacts", { name: "Jane" })}
-      >
+      <TouchableHighlight style={styles.button} onPress={() => navigate(navigateScreen)}>
         <Text style={styles.textStyle}> {title} </Text>
       </TouchableHighlight>
     );
@@ -41,10 +39,10 @@ export default class MainScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {this.createButton("Create Contact")}
-        {this.createButton("Edit Contact")}
-        {this.createButton("Delete Contact")}
-        {this.createButton("Display Contact")}
+        {this.createButton("Create Contact", "NewContacts")}
+        {this.createButton("Edit Contact", "ContactsList")}
+        {this.createButton("Delete Contact", "ContactsList")}
+        {this.createButton("Display Contact", "ContactsList")}
         {this.createButton("Finish")}
       </View>
     );
