@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import { FlatList, Text } from "react-native";
+import { connect } from "react-redux";
 
-export default class NewContactsScreen extends React.Component {
+export const mapStateToProps = (state: Object) => {
+  return {
+    contacts: state.saveContact.contacts
+  };
+};
+
+export class ContactsList extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: "Contacts List",
     headerStyle: { paddingTop: 30 }
@@ -11,13 +18,22 @@ export default class NewContactsScreen extends React.Component {
     return <TextInput style={styles.textStyle} placeholder={title} />;
   };
 
+  keyExtractor = (item, index) => item.first;
+
+  renderItem = ({ item }) => {
+    return <Text key={item.first}>{item.first}</Text>;
+  };
+
   render() {
     const { goBack } = this.props.navigation;
     return (
       <FlatList
-        data={[{ key: "a" }, { key: "b" }]}
-        renderItem={({ item }) => <Text>{item.key}</Text>}
+        data={this.props.contacts}
+        keyExtractor={this.keyExtractor}
+        renderItem={this.renderItem}
       />
     );
   }
 }
+
+export default connect(mapStateToProps, null)(ContactsList);
