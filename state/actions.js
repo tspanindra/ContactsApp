@@ -1,4 +1,4 @@
-export const SAVE_CONTACT = "SAVE_CONTACTS";
+export const SAVE_CONTACT = "SAVE_CONTACT";
 
 export function saveContact(contact) {
   return dispatch => {
