@@ -4,6 +4,7 @@ import profilePic from "./assets/profile_pic.jpeg";
 import { connect } from "react-redux";
 import * as appActions from "./state/actions";
 import { bindActionCreators } from "redux";
+import Toast from "react-native-simple-toast";
 
 const styles = StyleSheet.create({
   container: {
@@ -15,7 +16,12 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginTop: 30,
     marginBottom: 10,
+    backgroundColor: "gray",
     alignItems: "center"
+  },
+  saveButton: {
+    paddingTop: 10,
+    paddingBottom: 10
   },
   textStyle: {
     padding: 10,
@@ -61,7 +67,13 @@ export class NewContactsScreen extends React.Component {
   };
 
   saveContact = () => {
+    if (this.state.first === "" || this.state.last === "" || this.state.phone === "") {
+      Toast.show("Please enter First name, Last name and phone number.", Toast.LONG);
+      return;
+    }
+    const { goBack } = this.props.navigation;
     this.props.saveContact(this.state);
+    goBack();
   };
 
   render() {
@@ -151,7 +163,7 @@ export class NewContactsScreen extends React.Component {
         />
 
         <TouchableHighlight style={styles.button} onPress={() => this.saveContact()}>
-          <Text> Save </Text>
+          <Text style={styles.saveButton}> Save </Text>
         </TouchableHighlight>
       </ScrollView>
     );
