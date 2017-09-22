@@ -67,10 +67,10 @@ export class NewContactsScreen extends React.Component {
   };
 
   saveContact = () => {
-    if (this.state.first === "" || this.state.last === "" || this.state.phone === "") {
+    /* if (this.state.first === "" || this.state.last === "" || this.state.phone === "") {
       Toast.show("Please enter First name, Last name and phone number.", Toast.LONG);
       return;
-    }
+    }*/
     const { goBack } = this.props.navigation;
     this.props.saveContact(this.state);
     goBack();

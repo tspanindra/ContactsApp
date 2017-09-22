@@ -1,15 +1,20 @@
 import { combineReducers } from "redux";
-import { SAVE_CONTACT } from "./actions";
+import { SAVE_CONTACT, DELETE_CONTACT } from "./actions";
 
 const initialState = {
   contacts: []
 };
 
-const saveContact = (state = initialState, action) => {
-  console.log(action.data);
+const myContacts = (state = initialState, action) => {
   switch (action.type) {
     case SAVE_CONTACT: {
       return { ...state, contacts: state.contacts.concat(action.data) };
+    }
+    case DELETE_CONTACT: {
+      const reducedContacts = state.contacts.filter(contact => {
+        return contact.first != action.first;
+      });
+      return { ...state, contacts: reducedContacts };
     }
     default: {
       return initialState;
@@ -18,7 +23,7 @@ const saveContact = (state = initialState, action) => {
 };
 
 const contacts = combineReducers({
-  saveContact
+  myContacts
 });
 
 export default contacts;
