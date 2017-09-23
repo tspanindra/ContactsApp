@@ -1618,6 +1618,10 @@ dateformat@^2.0.0:
   version "2.0.0"
   resolved "https://artifactory.secureserver.net/artifactory/api/npm/node-virt/dateformat/-/dateformat-2.0.0.tgz#2743e3abb5c3fc2462e527dca445e04e9f4dee17"
 
+dateformat@^3.0.2:
+  version "3.0.2"
+  resolved "https://artifactory.secureserver.net/artifactory/api/npm/node-virt/dateformat/-/dateformat-3.0.2.tgz#9a4df4bff158ac2f34bc637abdb15471607e1659"
+
 debug@*, debug@2, debug@2.6.8, debug@^2.2.0, debug@^2.6.0, debug@^2.6.2, debug@^2.6.3, debug@^2.6.8:
   version "2.6.8"
   resolved "https://artifactory.secureserver.net/artifactory/api/npm/node-virt/debug/-/debug-2.6.8.tgz#e731531ca2ede27d188222427da17821d68ff4fc"
@@ -4391,6 +4395,12 @@ react-devtools-core@2.3.1:
 react-native-branch@2.0.0-beta.3:
   version "2.0.0-beta.3"
   resolved "https://artifactory.secureserver.net/artifactory/api/npm/node-virt/react-native-branch/-/react-native-branch-2.0.0-beta.3.tgz#2167af86bbc9f964bd45bd5f37684e5b54965e32"
+
+react-native-datepicker@^1.6.0:
+  version "1.6.0"
+  resolved "https://artifactory.secureserver.net/artifactory/api/npm/node-virt/react-native-datepicker/-/react-native-datepicker-1.6.0.tgz#3a40dc9b112023c49d60ba2a0789d440b7e3d97c"
+  dependencies:
+    moment "2.x.x"
 
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"

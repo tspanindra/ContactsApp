@@ -1,9 +1,21 @@
 import React, { Component } from "react";
-import { ScrollView, TouchableHighlight, Text, StyleSheet, Image, TextInput } from "react-native";
+import {
+  View,
+  ScrollView,
+  TouchableHighlight,
+  Text,
+  StyleSheet,
+  Image,
+  TextInput,
+  Platform,
+  DatePickerIOS,
+  DatePickerAndroid
+} from "react-native";
 import profilePic from "../assets/profile_pic.jpeg";
 import { connect } from "react-redux";
 import * as appActions from "../state/actions";
 import { bindActionCreators } from "redux";
+import DatePicker from "react-native-datepicker";
 // import Toast from "react-native-simple-toast";
 
 const styles = StyleSheet.create({
@@ -27,6 +39,16 @@ const styles = StyleSheet.create({
     padding: 10,
     marginLeft: 10,
     marginRight: 10
+  },
+  datePicker: {
+    flex: 1,
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: "center",
+    justifyContent: "center"
   }
 });
 
@@ -60,7 +82,9 @@ export class NewContactsScreen extends React.Component {
       facebookProfileUrl: "",
       twitterProfileUrl: "",
       skype: "",
-      youtubeChannel: ""
+      youtubeChannel: "",
+      date: new Date(),
+      showDatePicker: false
     };
   }
   static navigationOptions = ({ navigation }) => ({
@@ -86,6 +110,29 @@ export class NewContactsScreen extends React.Component {
     goBack();
   };
 
+  launchDatePicker = async () => {
+    if (Platform.OS === "android") {
+      try {
+        const { action, year, month, day } = await DatePickerAndroid.open({
+          // Use `new Date()` for current date.
+          // May 25 2020. Month 0 is January.
+          date: new Date()
+        });
+
+        if (action !== DatePickerAndroid.dismissedAction) {
+          // Selected year, month (0-11), day
+          const d = new Date(year, month, day);
+          const datestring = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
+          this.setState({ birthday: datestring });
+        }
+      } catch ({ code, message }) {
+        console.warn("Cannot open date picker", message);
+      }
+    } else {
+      this.setState({ showDatePicker: true });
+    }
+  };
+
   componentWillMount() {
     const { state } = this.props.navigation;
 
@@ -93,27 +140,13 @@ export class NewContactsScreen extends React.Component {
       const selectedContact = this.props.contacts.filter(contact => {
         return (contact.first = state.params.first);
       });
-      this.setState({
-        first: selectedContact[0].first,
-        last: selectedContact[0].last,
-        company: selectedContact[0].company,
-        phone: selectedContact[0].phone,
-        email: selectedContact[0].email,
-        url: selectedContact[0].url,
-        addrress: selectedContact[0].addrress,
-        birthday: selectedContact[0].birthday,
-        nickname: selectedContact[0].nickname,
-        facebookProfileUrl: selectedContact[0].facebookProfileUrl,
-        twitterProfileUrl: selectedContact[0].twitterProfileUrl,
-        skype: selectedContact[0].skype,
-        youtubeChannel: selectedContact[0].youtubeChannel
-      });
+      this.setState(selectedContact[0]);
     }
   }
 
   render() {
     const { goBack } = this.props.navigation;
-
+    const { showDatePicker } = this.state;
     return (
       <ScrollView style={styles.container}>
         <TouchableHighlight style={styles.button} onPress={() => goBack()}>
@@ -141,12 +174,14 @@ export class NewContactsScreen extends React.Component {
           value={this.state.phone}
           style={styles.textStyle}
           onChangeText={phone => this.setState({ phone })}
+          keyboardType={"phone-pad"}
           placeholder={"Phone"}
         />
         <TextInput
           value={this.state.email}
           style={styles.textStyle}
           onChangeText={email => this.setState({ email })}
+          keyboardType={"email-address"}
           placeholder={"Email"}
         />
         <TextInput
@@ -165,6 +200,7 @@ export class NewContactsScreen extends React.Component {
           value={this.state.birthday}
           style={styles.textStyle}
           onChangeText={birthday => this.setState({ birthday })}
+          onFocus={this.launchDatePicker}
           placeholder={"Birthday"}
         />
         <TextInput
@@ -201,6 +237,19 @@ export class NewContactsScreen extends React.Component {
         <TouchableHighlight style={styles.button} onPress={() => this.saveContact()}>
           <Text style={styles.saveButton}> Save </Text>
         </TouchableHighlight>
+
+        {showDatePicker ? (
+          <View>
+            <DatePickerIOS
+              style={{ height: 200 }}
+              date={this.state.date}
+              onDateChange={date => this.setState({ date })}
+              mode="date"
+            />
+          </View>
+        ) : (
+          <View />
+        )}
       </ScrollView>
     );
   }
