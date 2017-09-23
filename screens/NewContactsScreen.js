@@ -138,7 +138,9 @@ export class NewContactsScreen extends React.Component {
 
     if (state.params.screen == "edit") {
       const selectedContact = this.props.contacts.filter(contact => {
-        return (contact.first = state.params.first);
+        if (contact.first === state.params.first) {
+          return contact;
+        }
       });
       this.setState(selectedContact[0]);
     }
@@ -241,7 +243,7 @@ export class NewContactsScreen extends React.Component {
         {showDatePicker ? (
           <View>
             <DatePickerIOS
-              style={{ height: 200 }}
+              style={{ height: 200, backgroundColor: "green" }}
               date={this.state.date}
               onDateChange={date => this.setState({ date })}
               mode="date"

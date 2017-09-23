@@ -59,11 +59,11 @@ export class ContactsList extends React.Component {
 
   keyExtractor = (item, index) => item.first;
 
-  handleRow = first => {
+  handleRow = item => {
     const { state, navigate } = this.props.navigation;
     switch (state.params.screen) {
       case "edit": {
-        navigate("NewContacts", { screen: "edit", first: first });
+        navigate("NewContacts", { screen: "edit", first: item.first });
         return;
       }
       case "delete": {
@@ -72,7 +72,7 @@ export class ContactsList extends React.Component {
           "Are you sure want to delete ?",
           [
             { text: "No", onPress: () => console.log("Cancel Pressed"), style: "cancel" },
-            { text: "Yes", onPress: () => this.props.deleteContact(first) }
+            { text: "Yes", onPress: () => this.props.deleteContact(item.first) }
           ],
           { cancelable: false }
         );
@@ -81,7 +81,7 @@ export class ContactsList extends React.Component {
   };
   renderItem = ({ item }) => {
     return (
-      <TouchableHighlight onPress={() => this.handleRow(item.first)}>
+      <TouchableHighlight onPress={() => this.handleRow(item)}>
         <View style={styles.mainContainer}>
           <Image style={{ width: 40, height: 40 }} source={default_pic} />
           <View style={styles.container}>
