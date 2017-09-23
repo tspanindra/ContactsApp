@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { SAVE_CONTACT, DELETE_CONTACT } from "./actions";
+import { SAVE_CONTACT, DELETE_CONTACT, UPDATE_CONTACT } from "./actions";
 
 const initialState = {
   contacts: []
@@ -15,6 +15,15 @@ const myContacts = (state = initialState, action) => {
         return contact.first != action.first;
       });
       return { ...state, contacts: reducedContacts };
+    }
+    case UPDATE_CONTACT: {
+      const updateContacts = state.contacts.map(contact => {
+        if (contact.first === action.first) {
+          Object.assign(contact, action.contact);
+        }
+        return contact;
+      });
+      return { ...state, contacts: updateContacts };
     }
     default: {
       return initialState;

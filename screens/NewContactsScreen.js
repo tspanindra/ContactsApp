@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { ScrollView, TouchableHighlight, Text, StyleSheet, Image, TextInput } from "react-native";
-import profilePic from "./assets/profile_pic.jpeg";
+import profilePic from "../assets/profile_pic.jpeg";
 import { connect } from "react-redux";
-import * as appActions from "./state/actions";
+import * as appActions from "../state/actions";
 import { bindActionCreators } from "redux";
-import Toast from "react-native-simple-toast";
+// import Toast from "react-native-simple-toast";
 
 const styles = StyleSheet.create({
   container: {
@@ -37,6 +37,12 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
     },
     dispatch
   );
+
+export const mapStateToProps = (state: Object) => {
+  return {
+    contacts: state.myContacts.contacts
+  };
+};
 
 export class NewContactsScreen extends React.Component {
   constructor() {
@@ -71,17 +77,47 @@ export class NewContactsScreen extends React.Component {
       Toast.show("Please enter First name, Last name and phone number.", Toast.LONG);
       return;
     }*/
-    const { goBack } = this.props.navigation;
-    this.props.saveContact(this.state);
+    const { goBack, state } = this.props.navigation;
+    if (state.params.screen == "edit") {
+      this.props.updateContact(state.params.first, this.state);
+    } else {
+      this.props.saveContact(this.state);
+    }
     goBack();
   };
 
+  componentWillMount() {
+    const { state } = this.props.navigation;
+
+    if (state.params.screen == "edit") {
+      const selectedContact = this.props.contacts.filter(contact => {
+        return (contact.first = state.params.first);
+      });
+      this.setState({
+        first: selectedContact[0].first,
+        last: selectedContact[0].last,
+        company: selectedContact[0].company,
+        phone: selectedContact[0].phone,
+        email: selectedContact[0].email,
+        url: selectedContact[0].url,
+        addrress: selectedContact[0].addrress,
+        birthday: selectedContact[0].birthday,
+        nickname: selectedContact[0].nickname,
+        facebookProfileUrl: selectedContact[0].facebookProfileUrl,
+        twitterProfileUrl: selectedContact[0].twitterProfileUrl,
+        skype: selectedContact[0].skype,
+        youtubeChannel: selectedContact[0].youtubeChannel
+      });
+    }
+  }
+
   render() {
     const { goBack } = this.props.navigation;
+
     return (
       <ScrollView style={styles.container}>
         <TouchableHighlight style={styles.button} onPress={() => goBack()}>
-          <Image style={{ width: 250, height: 250 }} source={profilePic} />
+          <Image style={{ width: 200, height: 200 }} source={profilePic} />
         </TouchableHighlight>
         <TextInput
           value={this.state.first}
@@ -170,4 +206,4 @@ export class NewContactsScreen extends React.Component {
   }
 }
 
-export default connect(null, mapDispatchToProps)(NewContactsScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(NewContactsScreen);

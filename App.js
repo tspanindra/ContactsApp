@@ -1,8 +1,8 @@
 import React from "react";
-import MainScreen from "./MainScreen";
-import NewContactsScreen from "./NewContactsScreen";
+import MainScreen from "./screens/MainScreen";
+import NewContactsScreen from "./screens/NewContactsScreen";
 import { StackNavigator } from "react-navigation";
-import ContactsList from "./ContactsList";
+import ContactsList from "./screens/ContactsList";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import contacts from "./state/reducer";

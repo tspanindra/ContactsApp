@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { FlatList, Text, StyleSheet, View, Image, TouchableHighlight, Alert } from "react-native";
 import { connect } from "react-redux";
-import default_pic from "./assets/default_pic.png";
-import * as appActions from "./state/actions";
+import default_pic from "../assets/default_pic.png";
+import * as appActions from "../state/actions";
 import { bindActionCreators } from "redux";
 
 const styles = StyleSheet.create({
@@ -60,9 +60,10 @@ export class ContactsList extends React.Component {
   keyExtractor = (item, index) => item.first;
 
   handleRow = first => {
-    const { state } = this.props.navigation;
+    const { state, navigate } = this.props.navigation;
     switch (state.params.screen) {
       case "edit": {
+        navigate("NewContacts", { screen: "edit", first: first });
         return;
       }
       case "delete": {
