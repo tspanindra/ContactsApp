@@ -77,6 +77,10 @@ export class ContactsList extends React.Component {
           { cancelable: false }
         );
       }
+      case "display": {
+        navigate("DisplayList", { first: item.first });
+        return;
+      }
     }
   };
   renderItem = ({ item }) => {
