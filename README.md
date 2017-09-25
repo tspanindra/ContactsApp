@@ -23,4 +23,6 @@ This was create as an exercise and also to compare with Android and limitations 
   `yarn android\ yarn ios`
 
   #screenshots
-  
+  ![Alt text](./assets/contacts.png?raw=true "Contacts")
+  ![Alt text](./assets/newContact.png?raw=true "Contacts")
+  ![Alt text](./assets/list.png?raw=true "Contacts")
